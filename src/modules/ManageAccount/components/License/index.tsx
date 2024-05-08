@@ -290,7 +290,7 @@ export function LicenseForm() {
                     src={SrcIcons.attachment}
                     height={20}
                     width={20}
-                    alt="Youth+ Doanh nghiệp"
+                    alt="Eztek Doanh nghiệp"
                   />
                   &nbsp;
                   {/* <p className="font-[400] text-[16px] ">Giấy phép kinh doanh</p> */}

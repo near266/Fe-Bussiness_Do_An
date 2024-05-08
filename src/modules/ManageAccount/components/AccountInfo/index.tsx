@@ -377,7 +377,7 @@ export const AccountInfoForm = ({ accountInfo }: IProps) => {
                               height={18}
                               objectFit="contain"
                               src={SrcIcons.sideBarPen}
-                              alt="Youth+ Doanh nghiệp"
+                              alt="Eztek Doanh nghiệp"
                             />
                           </div>
                         ) : (
@@ -504,7 +504,7 @@ export const AccountInfoForm = ({ accountInfo }: IProps) => {
                               height={18}
                               objectFit="contain"
                               src={SrcIcons.sideBarPen}
-                              alt="Youth+ Doanh nghiệp"
+                              alt="Eztek Doanh nghiệp"
                             />
                           </div>
                         ) : (
@@ -915,7 +915,7 @@ export const AccountInfoForm = ({ accountInfo }: IProps) => {
                 layout="fill"
                 objectFit="contain"
                 src={SrcImages.forgotPassword}
-                alt="Youth+ Doanh nghiệp"
+                alt="Eztek Doanh nghiệp"
               />
             </div>
           </div>

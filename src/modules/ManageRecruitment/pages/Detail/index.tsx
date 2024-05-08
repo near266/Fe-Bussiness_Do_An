@@ -91,7 +91,7 @@ const RecruitmentDetailModule = (props: IProps) => {
             src={
               formValues[RECRUITMENT_DATA_FIELD.caching]?.avatar ?? SrcImages.sideImage
             }
-            alt="Youth+ Doanh nghiệp"
+            alt="Eztek Doanh nghiệp"
             layout="fill"
             objectFit="cover"
           />
@@ -109,7 +109,7 @@ const RecruitmentDetailModule = (props: IProps) => {
                 <div className="sm:hidden relative border-[4px] border-solid border-[#FAFAFB] bg-[#FAFAFB] rounded-[10px] overflow-hidden h-16 w-16">
                   <Image
                     src={enterpriseInfo.avatar}
-                    alt="Youth+ Doanh nghiệp"
+                    alt="Eztek Doanh nghiệp"
                     layout="fill"
                     objectFit="contain"
                   />
@@ -120,7 +120,7 @@ const RecruitmentDetailModule = (props: IProps) => {
                       width={20}
                       height={20}
                       src={SrcIcons.bookmark}
-                      alt="Youth+ Doanh nghiệp"
+                      alt="Eztek Doanh nghiệp"
                     />
                   </div>
                   <div className="bg-white relative p-2 rounded-[10px] h-[34px] w-[34px] drop-shadow-[0_0_2px_rgba(0,0,0,0.25)]">
@@ -128,7 +128,7 @@ const RecruitmentDetailModule = (props: IProps) => {
                       width={20}
                       height={20}
                       src={SrcIcons.attachment}
-                      alt="Youth+ Doanh nghiệp"
+                      alt="Eztek Doanh nghiệp"
                     />
                   </div>
                 </div>
@@ -397,10 +397,7 @@ const RecruitmentDetailModule = (props: IProps) => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <img
-                  src="/icons/facebook_v2.svg"
-                  alt="Facebook"
-                />
+                <img src="/icons/facebook_v2.svg" alt="Facebook" />
               </a>
             </li>
             <li className="list-inline-item social">
@@ -410,10 +407,7 @@ const RecruitmentDetailModule = (props: IProps) => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <img
-                  src="/icons/instagram_v2.svg"
-                  alt="Instagram"
-                />
+                <img src="/icons/instagram_v2.svg" alt="Instagram" />
               </a>
             </li>
             <li className="list-inline-item social">
@@ -423,10 +417,7 @@ const RecruitmentDetailModule = (props: IProps) => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <img
-                  src="/icons/tiktok.svg"
-                  alt="Tiktok Youth"
-                />
+                <img src="/icons/tiktok.svg" alt="Tiktok Youth" />
               </a>
             </li>
           </ul>

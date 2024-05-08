@@ -317,7 +317,7 @@ export function RecruitmentForm(props: Iprops) {
                       <div className="relative w-full min-h-[52px]">
                         <Image
                           src={form.getFieldValue(RECRUITMENT_DATA_FIELD.image_url)}
-                          alt="Youth+ Doanh nghiệp"
+                          alt="Eztek Doanh nghiệp"
                           layout="fill"
                         />
                       </div>
@@ -327,7 +327,7 @@ export function RecruitmentForm(props: Iprops) {
                           src={SrcIcons.file_plus}
                           width={42}
                           height={52}
-                          alt="Youth+ Doanh nghiệp"
+                          alt="Eztek Doanh nghiệp"
                         />
                       </p>
                     )}

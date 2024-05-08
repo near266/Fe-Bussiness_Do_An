@@ -10,11 +10,11 @@ const HeroSection: React.FC = () => {
         <div className="hero-content min-w-[320px]">
           <div className="flex flex-col items-start gap-3 max-w-[622px]">
             <h1 className="font-semibold text-[#22216D] text-[24px] sm:text-[30px] md:text-[32px] lg:text-[40px] leading-[28px] sm:leading-[30px] md:leading-[43px] lg:leading-[48px] -tracking-[0.005em]">
-              Youth+ Nền tảng định hướng
+              Eztek Nền tảng định hướng
               <br /> và kết nối làm việc cho giới trẻ
             </h1>
             <p className="font-normal text-[16px] sm:text-[18px] md:text-[20px] leading-[24px] md:leading-7 text-[#44444F] mb-[32px]">
-              Kết nối triệu ứng viên ưng ý - Tuyển dụng ngay nhân tài đúng ý cùng YOUTH+
+              Kết nối triệu ứng viên ưng ý - Tuyển dụng ngay nhân tài đúng ý cùng Eztek
             </p>
             <Link href="/sign-up">
               <button className="primary-button !mt-auto !mx-0">Tham gia ngay</button>
@@ -25,7 +25,7 @@ const HeroSection: React.FC = () => {
           <Image
             layout="fill"
             objectFit="contain"
-            alt="Youth+ Doanh nghiệp"
+            alt="Eztek Doanh nghiệp"
             src={SrcImages.heroLogo}
             priority
             quality={100}
@@ -48,7 +48,7 @@ const ServicesSection: React.FC = () => {
           <Image
             layout="fill"
             objectFit="contain"
-            alt="Youth+ Doanh nghiệp"
+            alt="Eztek Doanh nghiệp"
             src={SrcImages.services}
             priority
             quality={100}
@@ -60,14 +60,14 @@ const ServicesSection: React.FC = () => {
               Dịch vụ
             </h1>
             <p className="font-normal text-[16px] sm:text-[18px] md:text-[20px] leading-[24px] md:leading-7 text-[#44444F] mb-[32px]">
-              YOUTH+ - Mang đến cho bạn dịch vụ tuyển dụng chất lượng và đáng tin cậy
+              Eztek - Mang đến cho bạn dịch vụ tuyển dụng chất lượng và đáng tin cậy
             </p>
             <div className="card !py-5 flex gap-3">
               <Image
                 width={37}
                 height={37}
                 src={SrcIcons.timer}
-                alt="Youth+ Doanh nghiệp"
+                alt="Eztek Doanh nghiệp"
                 priority
                 quality={100}
               />
@@ -83,7 +83,7 @@ const ServicesSection: React.FC = () => {
               <Image
                 width={37}
                 height={37}
-                alt="Youth+ Doanh nghiệp"
+                alt="Eztek Doanh nghiệp"
                 src={SrcIcons.timer}
                 priority
                 quality={100}
@@ -231,10 +231,10 @@ const ContactInfoSection: React.FC = () => {
               </p>
             </div>
             <h1 className="font-semibold text-[#22216D] text-[24px] sm:text-[30px] md:text-[32px] lg:text-[40px] leading-[28px] sm:leading-[30px] md:leading-[43px] lg:leading-[48px] -tracking-[0.005em]">
-              Youth+ mong muốn được hợp tác với doanh nghiệp
+              Eztek mong muốn được hợp tác với doanh nghiệp
             </h1>
             <p className="font-normal text-[14px] sm:text-[16px] md:text-[20px] leading-[24px] md:leading-7 text-[#44444F] ">
-              Đội ngũ hỗ trợ của Youth+ luôn sẵn sàng để tư vấn giải pháp tuyển dụng và
+              Đội ngũ hỗ trợ của Eztek luôn sẵn sàng để tư vấn giải pháp tuyển dụng và
               đồng hành cùng quý các nhà tuyển dụng
             </p>
             <ul className="list-disc translate-x-6 mb-[32px]">
@@ -254,7 +254,7 @@ const ContactInfoSection: React.FC = () => {
           <Image
             layout="fill"
             objectFit="contain"
-            alt="Youth+ Doanh nghiệp"
+            alt="Eztek Doanh nghiệp"
             src={SrcImages.contactInfo}
             priority
             quality={100}

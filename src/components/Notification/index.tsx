@@ -12,7 +12,7 @@ const mockupNotif = [
     id: '961b6a2b2-522c-4598-9d25-5e40ce6c22be',
     data: {
       title:
-        'Chào mừng bạn đến với cộng đồng <b>Youth+</b>, vui lòng cập nhật thông tin tài khoản <b>tại đây</b>',
+        'Chào mừng bạn đến với cộng đồng <b>Eztek</b>, vui lòng cập nhật thông tin tài khoản <b>tại đây</b>',
       url: 'https://youth.com.vn/account/setting',
       image_url: 'https://accounts.youth.com.vn/images/avatar/default.jpeg',
     },
@@ -23,7 +23,7 @@ const mockupNotif = [
     id: '961b62b2-5a2c-4598-9d25-5e40ce6c22be',
     data: {
       title:
-        'Chào mừng bạn đến với cộng đồng <b>Youth+</b>, vui lòng cập nhật thông tin tài khoản <b>tại đây</b>',
+        'Chào mừng bạn đến với cộng đồng <b>Eztek</b>, vui lòng cập nhật thông tin tài khoản <b>tại đây</b>',
       url: 'https://youth.com.vn/account/setting',
       image_url: 'https://accounts.youth.com.vn/images/avatar/default.jpeg',
     },
@@ -34,7 +34,7 @@ const mockupNotif = [
     id: '9a61b62b2-52aac-4598-9d25-5e40ce6c22be',
     data: {
       title:
-        'Chào mừng bạn đến với cộng đồng <b>Youth+</b>, vui lòng cập nhật thông tin tài khoản <b>tại đây</b>',
+        'Chào mừng bạn đến với cộng đồng <b>Eztek</b>, vui lòng cập nhật thông tin tài khoản <b>tại đây</b>',
       url: 'https://youth.com.vn/account/setting',
       image_url: 'https://accounts.youth.com.vn/images/avatar/default.jpeg',
     },
@@ -45,7 +45,7 @@ const mockupNotif = [
     id: '961b6a2b2-522c-4a598-9d25-5e40ce6c22be',
     data: {
       title:
-        'Chào mừng bạn đến với cộng đồng <b>Youth+</b>, vui lòng cập nhật thông tin tài khoản <b>tại đây</b>',
+        'Chào mừng bạn đến với cộng đồng <b>Eztek</b>, vui lòng cập nhật thông tin tài khoản <b>tại đây</b>',
       url: 'https://youth.com.vn/account/setting',
       image_url: 'https://accounts.youth.com.vn/images/avatar/default.jpeg',
     },
@@ -56,7 +56,7 @@ const mockupNotif = [
     id: '961b62b2-522ac-as598-9d25-5e40ce6c22be',
     data: {
       title:
-        'Chào mừng bạn đến với cộng đồng <b>Youth+</b>, vui lòng cập nhật thông tin tài khoản <b>tại đây</b>',
+        'Chào mừng bạn đến với cộng đồng <b>Eztek</b>, vui lòng cập nhật thông tin tài khoản <b>tại đây</b>',
       url: 'https://youth.com.vn/account/setting',
       image_url: 'https://accounts.youth.com.vn/images/avatar/default.jpeg',
     },

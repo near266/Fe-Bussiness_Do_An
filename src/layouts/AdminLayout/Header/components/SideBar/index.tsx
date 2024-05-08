@@ -190,7 +190,7 @@ export function SideBar(props: ISideBarProps) {
           <Image src={SrcIcons.iconYouth} alt="Logo" width={36} height={36} priority />
           <div>
             <h2 className="text-title font-title m-0 uppercase text-[#22216D] text-xl w-[117px]">
-              Youth+
+              Eztek
               <br />
             </h2>
             <span className="text-[#22216D] text-[12px]">for Bussiness</span>

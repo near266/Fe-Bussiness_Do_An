@@ -31,12 +31,12 @@ const StepAgreePolicy = ({ form }) => {
     <>
       <div className="flex flex-col h-full mt-4 gap-4">
         <p className="font-light text-[16px] leading-[26px] text-gray-800">
-          Để đảm bảo chất lượng dịch vụ, Youth+ không cho phép một người dùng tạo nhiều
-          tài khoản khác nhau.
-          <br /> Nếu phát hiện vi phạm, Youth+ sẽ ngừng cung cấp dịch vụ tới tất cả các
-          tài khoản trùng lặp hoặc chặn toàn bộ truy cập tới hệ thống website của Youth+.
+          Để đảm bảo chất lượng dịch vụ, Eztek không cho phép một người dùng tạo nhiều tài
+          khoản khác nhau.
+          <br /> Nếu phát hiện vi phạm, Eztek sẽ ngừng cung cấp dịch vụ tới tất cả các tài
+          khoản trùng lặp hoặc chặn toàn bộ truy cập tới hệ thống website của Eztek.
           <br /> Đối với trường hợp khách hàng đã sử dụng hết 3 tin tuyển dụng miễn phí,
-          Youth+ hỗ trợ kích hoạt đăng tin tuyển dụng không giới hạn sau khi quý doanh
+          Eztek hỗ trợ kích hoạt đăng tin tuyển dụng không giới hạn sau khi quý doanh
           nghiệp cung cấp thông tin giấy phép kinh doanh.
         </p>
         <Form.Item name={'agree_policy'}>
@@ -520,7 +520,7 @@ const StepSuccess = ({ form }) => {
             layout="fill"
             objectFit="contain"
             src={SrcImages.successSignup}
-            alt="Youth+ Doanh nghiệp"
+            alt="Eztek Doanh nghiệp"
           />
         </div>
         <h2 className="not-italic font-semibold text-2xl leading-8 text-center text-gray-900">
@@ -528,7 +528,7 @@ const StepSuccess = ({ form }) => {
         </h2>
         <p className="max-w-[356px] text-center">
           Vui lòng kiểm tra hộp thư, chúng tôi vừa gửi bạn link truy cập vào hệ thống
-          Youth+ Business
+          Eztek Business
         </p>
         <Link href="/login" legacyBehavior>
           <button className="primary-button !m-auto !bg-transparent !text-[#403ECC]">

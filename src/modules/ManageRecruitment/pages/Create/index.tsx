@@ -35,7 +35,7 @@ const CreateSuccess = () => {
           <Image
             layout="fill"
             objectFit="contain"
-            alt="Youth+ Doanh nghiệp"
+            alt="Eztek Doanh nghiệp"
             src={SrcImages.completeCreateRecruit}
           />
         </div>

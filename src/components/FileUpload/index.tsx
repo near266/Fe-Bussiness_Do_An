@@ -105,7 +105,7 @@ const FileUploader: React.FC<IProps> = (props: IProps) => {
         footer={null}
         onCancel={handleCancel}
       >
-        <img alt="Youth+ Doanh nghiệp" style={{ width: '100%' }} src={previewImage} />
+        <img alt="Eztek Doanh nghiệp" style={{ width: '100%' }} src={previewImage} />
       </Modal>
     </>
   );

@@ -16,9 +16,9 @@ class MyDocument extends Document {
         <Head>
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
-          <meta name="keywords" content="youth, youth+, youth doanh nghiệp" />
+          <meta name="keywords" content="youth, Eztek, youth doanh nghiệp" />
           <meta property="og:url" content="https://enterprise.youth.com.vn/" />
-          <meta property="og:description" content="Youth+ Doanh nghiệp" />
+          <meta property="og:description" content="Eztek Doanh nghiệp" />
           <meta property="og:type" content="website" />
           <meta name="theme-color"></meta>
           <link
@@ -27,7 +27,7 @@ class MyDocument extends Document {
           ></link>
           <meta
             name="description"
-            content="YOUTH+ - Mang đến cho bạn dịch vụ tuyển dụng chất lượng và đáng tin cậy"
+            content="Eztek - Mang đến cho bạn dịch vụ tuyển dụng chất lượng và đáng tin cậy"
           />
         </Head>
         <body>

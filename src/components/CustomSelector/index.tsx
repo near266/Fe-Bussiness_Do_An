@@ -84,7 +84,7 @@ export function CustomSelector(props: IProps) {
                   width={20}
                   height={20}
                   src={SrcIcons.dropDown}
-                  alt="Youth+ Doanh nghiệp"
+                  alt="Eztek Doanh nghiệp"
                   objectFit="contain"
                 />
               </div>

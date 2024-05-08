@@ -261,7 +261,7 @@ const Efficiency: React.FC = () => {
                           layout="fill"
                           objectFit="contain"
                           src={item.icon}
-                          alt="Youth+ Doanh nghiệp"
+                          alt="Eztek Doanh nghiệp"
                         />
                       </span>
                     </div>

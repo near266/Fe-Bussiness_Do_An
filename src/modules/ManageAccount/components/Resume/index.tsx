@@ -72,7 +72,7 @@ export function Resume(props) {
                   src={SrcIcons.ic_link}
                   width={24}
                   height={24}
-                  alt="Youth+ Doanh nghiệp"
+                  alt="Eztek Doanh nghiệp"
                 />
               </IconButton>
             </div>
@@ -92,7 +92,7 @@ export function Resume(props) {
                     src={SrcIcons.editActionIcon}
                     height={30}
                     width={30}
-                    alt="Youth+ Doanh nghiệp"
+                    alt="Eztek Doanh nghiệp"
                   />
                 </IconButton>
               </Tooltip>
@@ -103,7 +103,7 @@ export function Resume(props) {
                     src={SrcIcons.deleteActionIcon}
                     height={30}
                     width={30}
-                    alt="Youth+ Doanh nghiệp"
+                    alt="Eztek Doanh nghiệp"
                   />
                 </IconButton>
               </Tooltip>

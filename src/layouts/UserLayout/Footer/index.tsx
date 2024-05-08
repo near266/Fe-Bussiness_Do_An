@@ -55,7 +55,7 @@ const Footer: React.FC = () => {
                   src={SrcIcons.iconYouth}
                   alt="youth enterprise"
                 />
-                <p className="typo-h1-primary">YOUTH+</p>
+                <p className="typo-h1-primary">Eztek</p>
               </div>
               <p className="typo-gray  mt-2 max-w-[302px]">
                 Nền tảng định hướng và kết nối việc làm dành cho giới trẻ
@@ -69,10 +69,7 @@ const Footer: React.FC = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <img
-                        src="/icons/facebook_v2.svg"
-                        alt="Facebook"
-                      />
+                      <img src="/icons/facebook_v2.svg" alt="Facebook" />
                     </a>
                   </li>
                   <li className="list-inline-item social">
@@ -82,10 +79,7 @@ const Footer: React.FC = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <img
-                        src="/icons/instagram_v2.svg"
-                        alt="Instagram"
-                      />
+                      <img src="/icons/instagram_v2.svg" alt="Instagram" />
                     </a>
                   </li>
                   <li className="list-inline-item social">
@@ -95,15 +89,12 @@ const Footer: React.FC = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <img
-                        src="/icons/tiktok.svg"
-                        alt="Tiktok Youth"
-                      />
+                      <img src="/icons/tiktok.svg" alt="Tiktok Youth" />
                     </a>
                   </li>
                 </ul>
               </div>
-              <p className="typo-gray mt-auto">Youth+. All rights reserved.</p>
+              <p className="typo-gray mt-auto">Eztek. All rights reserved.</p>
             </div>
             <div className="col-span-12 pr-5 sm:col-span-6 md:col-auto my-5 sm:my-0 contact-info flex flex-col gap-4">
               <p className="typo-small-title-purple">Liên hệ chúng tôi</p>
