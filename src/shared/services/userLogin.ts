@@ -20,7 +20,7 @@ const userLogin = createAsyncThunk(
         },
       };
       const { data } = await axios.post(
-        `http://localhost:8080/api/User/authenticate`,
+        'http://localhost:8080/api/User/authenticate',
         { email, password },
         config
       );
