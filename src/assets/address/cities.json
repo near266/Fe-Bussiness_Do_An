@@ -1,0 +1,254 @@
+[
+    {
+        "label": "Thành phố Hà Nội",
+        "value": "Thành phố Hà Nội"
+    },
+    {
+        "label": "Tỉnh Hà Giang",
+        "value": "Tỉnh Hà Giang"
+    },
+    {
+        "label": "Tỉnh Cao Bằng",
+        "value": "Tỉnh Cao Bằng"
+    },
+    {
+        "label": "Tỉnh Bắc Kạn",
+        "value": "Tỉnh Bắc Kạn"
+    },
+    {
+        "label": "Tỉnh Tuyên Quang",
+        "value": "Tỉnh Tuyên Quang"
+    },
+    {
+        "label": "Tỉnh Lào Cai",
+        "value": "Tỉnh Lào Cai"
+    },
+    {
+        "label": "Tỉnh Điện Biên",
+        "value": "Tỉnh Điện Biên"
+    },
+    {
+        "label": "Tỉnh Lai Châu",
+        "value": "Tỉnh Lai Châu"
+    },
+    {
+        "label": "Tỉnh Sơn La",
+        "value": "Tỉnh Sơn La"
+    },
+    {
+        "label": "Tỉnh Yên Bái",
+        "value": "Tỉnh Yên Bái"
+    },
+    {
+        "label": "Tỉnh Hoà Bình",
+        "value": "Tỉnh Hoà Bình"
+    },
+    {
+        "label": "Tỉnh Thái Nguyên",
+        "value": "Tỉnh Thái Nguyên"
+    },
+    {
+        "label": "Tỉnh Lạng Sơn",
+        "value": "Tỉnh Lạng Sơn"
+    },
+    {
+        "label": "Tỉnh Quảng Ninh",
+        "value": "Tỉnh Quảng Ninh"
+    },
+    {
+        "label": "Tỉnh Bắc Giang",
+        "value": "Tỉnh Bắc Giang"
+    },
+    {
+        "label": "Tỉnh Phú Thọ",
+        "value": "Tỉnh Phú Thọ"
+    },
+    {
+        "label": "Tỉnh Vĩnh Phúc",
+        "value": "Tỉnh Vĩnh Phúc"
+    },
+    {
+        "label": "Tỉnh Bắc Ninh",
+        "value": "Tỉnh Bắc Ninh"
+    },
+    {
+        "label": "Tỉnh Hải Dương",
+        "value": "Tỉnh Hải Dương"
+    },
+    {
+        "label": "Thành phố Hải Phòng",
+        "value": "Thành phố Hải Phòng"
+    },
+    {
+        "label": "Tỉnh Hưng Yên",
+        "value": "Tỉnh Hưng Yên"
+    },
+    {
+        "label": "Tỉnh Thái Bình",
+        "value": "Tỉnh Thái Bình"
+    },
+    {
+        "label": "Tỉnh Hà Nam",
+        "value": "Tỉnh Hà Nam"
+    },
+    {
+        "label": "Tỉnh Nam Định",
+        "value": "Tỉnh Nam Định"
+    },
+    {
+        "label": "Tỉnh Ninh Bình",
+        "value": "Tỉnh Ninh Bình"
+    },
+    {
+        "label": "Tỉnh Thanh Hóa",
+        "value": "Tỉnh Thanh Hóa"
+    },
+    {
+        "label": "Tỉnh Nghệ An",
+        "value": "Tỉnh Nghệ An"
+    },
+    {
+        "label": "Tỉnh Hà Tĩnh",
+        "value": "Tỉnh Hà Tĩnh"
+    },
+    {
+        "label": "Tỉnh Quảng Bình",
+        "value": "Tỉnh Quảng Bình"
+    },
+    {
+        "label": "Tỉnh Quảng Trị",
+        "value": "Tỉnh Quảng Trị"
+    },
+    {
+        "label": "Tỉnh Thừa Thiên Huế",
+        "value": "Tỉnh Thừa Thiên Huế"
+    },
+    {
+        "label": "Thành phố Đà Nẵng",
+        "value": "Thành phố Đà Nẵng"
+    },
+    {
+        "label": "Tỉnh Quảng Nam",
+        "value": "Tỉnh Quảng Nam"
+    },
+    {
+        "label": "Tỉnh Quảng Ngãi",
+        "value": "Tỉnh Quảng Ngãi"
+    },
+    {
+        "label": "Tỉnh Bình Định",
+        "value": "Tỉnh Bình Định"
+    },
+    {
+        "label": "Tỉnh Phú Yên",
+        "value": "Tỉnh Phú Yên"
+    },
+    {
+        "label": "Tỉnh Khánh Hòa",
+        "value": "Tỉnh Khánh Hòa"
+    },
+    {
+        "label": "Tỉnh Ninh Thuận",
+        "value": "Tỉnh Ninh Thuận"
+    },
+    {
+        "label": "Tỉnh Bình Thuận",
+        "value": "Tỉnh Bình Thuận"
+    },
+    {
+        "label": "Tỉnh Kon Tum",
+        "value": "Tỉnh Kon Tum"
+    },
+    {
+        "label": "Tỉnh Gia Lai",
+        "value": "Tỉnh Gia Lai"
+    },
+    {
+        "label": "Tỉnh Đắk Lắk",
+        "value": "Tỉnh Đắk Lắk"
+    },
+    {
+        "label": "Tỉnh Đắk Nông",
+        "value": "Tỉnh Đắk Nông"
+    },
+    {
+        "label": "Tỉnh Lâm Đồng",
+        "value": "Tỉnh Lâm Đồng"
+    },
+    {
+        "label": "Tỉnh Bình Phước",
+        "value": "Tỉnh Bình Phước"
+    },
+    {
+        "label": "Tỉnh Tây Ninh",
+        "value": "Tỉnh Tây Ninh"
+    },
+    {
+        "label": "Tỉnh Bình Dương",
+        "value": "Tỉnh Bình Dương"
+    },
+    {
+        "label": "Tỉnh Đồng Nai",
+        "value": "Tỉnh Đồng Nai"
+    },
+    {
+        "label": "Tỉnh Bà Rịa - Vũng Tàu",
+        "value": "Tỉnh Bà Rịa - Vũng Tàu"
+    },
+    {
+        "label": "Thành phố Hồ Chí Minh",
+        "value": "Thành phố Hồ Chí Minh"
+    },
+    {
+        "label": "Tỉnh Long An",
+        "value": "Tỉnh Long An"
+    },
+    {
+        "label": "Tỉnh Tiền Giang",
+        "value": "Tỉnh Tiền Giang"
+    },
+    {
+        "label": "Tỉnh Bến Tre",
+        "value": "Tỉnh Bến Tre"
+    },
+    {
+        "label": "Tỉnh Trà Vinh",
+        "value": "Tỉnh Trà Vinh"
+    },
+    {
+        "label": "Tỉnh Vĩnh Long",
+        "value": "Tỉnh Vĩnh Long"
+    },
+    {
+        "label": "Tỉnh Đồng Tháp",
+        "value": "Tỉnh Đồng Tháp"
+    },
+    {
+        "label": "Tỉnh An Giang",
+        "value": "Tỉnh An Giang"
+    },
+    {
+        "label": "Tỉnh Kiên Giang",
+        "value": "Tỉnh Kiên Giang"
+    },
+    {
+        "label": "Thành phố Cần Thơ",
+        "value": "Thành phố Cần Thơ"
+    },
+    {
+        "label": "Tỉnh Hậu Giang",
+        "value": "Tỉnh Hậu Giang"
+    },
+    {
+        "label": "Tỉnh Sóc Trăng",
+        "value": "Tỉnh Sóc Trăng"
+    },
+    {
+        "label": "Tỉnh Bạc Liêu",
+        "value": "Tỉnh Bạc Liêu"
+    },
+    {
+        "label": "Tỉnh Cà Mau",
+        "value": "Tỉnh Cà Mau"
+    }
+]

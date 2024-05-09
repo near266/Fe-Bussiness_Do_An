@@ -1,23 +1,36 @@
 import { FORM_DATA_FIELD, GET_OTP_TYPE } from '@/modules/SignUp/shared/enums';
 import { apiEnterprise } from '@/shared/axios/apiv3';
 export type RegisterPayload = {
-  last_name: string;
-  first_name: string;
+  name: string;
+  userName: string;
   phone: string;
   gender_id: number;
   address: string;
   enterprise_name: string;
-  city_id: number;
-  district_id: number;
+  city_id: string;
+  district_id: string;
+  account_id: string;
   email: string;
   password: string;
-  confirmed_password: string;
-  receive_news: true;
+  confirmPassword: string;
+
+  // last_name: string;
+  // first_name: string;
+  // phone: string;
+  // gender_id: number;
+  // address: string;
+  // enterprise_name: string;
+  // city_id: number;
+  // district_id: number;
+  // email: string;
+  // password: string;
+  // confirmed_password: string;
+  // receive_news: true;
 };
 
 class Register {
   async registerAccount(payload: RegisterPayload) {
-    const res = await apiEnterprise.post('/register', payload);
+    const res = await apiEnterprise.post('/api/UserInfo/Enterprise/Create', payload);
     return res.data;
   }
 

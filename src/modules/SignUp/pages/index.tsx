@@ -14,6 +14,9 @@ import { ProgressBar } from '../components/ProgressBar';
 import { registerInstance, RegisterPayload } from '../shared/api';
 import { FORM_DATA_FIELD, GET_OTP_TYPE } from '../shared/enums';
 import autoAnimate from '@formkit/auto-animate';
+import axios from 'axios';
+import city from '@/assets/address/cities.json';
+import { adressAPI } from '@/shared/services';
 
 const VerificationInput = dynamic(() => import('@/components/VetifyInput'), {
   ssr: false,
@@ -25,6 +28,16 @@ const steps = [
   { id: 3, label: 'XÁC NHẬN' },
 ];
 const { Option } = Select;
+const fetchData = async () => {
+  try {
+    const data = await adressAPI.getCity();
+    console.log(data); // In dữ liệu JSON ra console
+    return data; // Trả về dữ liệu JSON
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    throw error; // Xử lý lỗi nếu có
+  }
+};
 
 const StepAgreePolicy = ({ form }) => {
   return (
@@ -57,11 +70,12 @@ const StepAgreePolicy = ({ form }) => {
 const StepEnterpriseInfo = ({ form }) => {
   const [showVerify, setShowVerify] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
-  const [provinces, setProvinces] = useState<IProvinces[]>([]);
-  const [districts, setDistricts] = useState<IDistrict[]>([]);
+  const [provinces, setProvinces] = useState<any>([]);
+  const [districts, setDistricts] = useState<any>([]);
   const [optToken, setOptToken] = useState<string>('');
   const getProvincesData = useCallback(async () => {
-    const res = await provinceService.fetchProvinces();
+    fetchData();
+    const res = await adressAPI.getCity();
     if (res) {
       setProvinces([...res]);
     }
@@ -78,7 +92,7 @@ const StepEnterpriseInfo = ({ form }) => {
       );
       appLibrary.hideloading();
 
-      if (code === SV_RES_STATUS_CODE.success) {
+      if (true) {
         if (!data.token) {
           return message.error('Lấy mã xác thực thất bại');
         }
@@ -133,10 +147,10 @@ const StepEnterpriseInfo = ({ form }) => {
     }
     onVerifyOtp(optToken, verify_code);
   };
-  const handleSelectProvinces = async (province_code: number) => {
+  const handleSelectProvinces = async (province_code: string) => {
     form.setFields([{ name: FORM_DATA_FIELD.city_id, value: province_code }]);
     form.resetFields([FORM_DATA_FIELD.district_id]);
-    const res = await provinceService.fetchDistricts(province_code);
+    const res = await adressAPI.FindDistrictByCity(province_code);
     if (res) {
       setDistricts([...res]);
     }
@@ -148,31 +162,16 @@ const StepEnterpriseInfo = ({ form }) => {
         {/* name */}
         <div className="flex gap-2">
           <Form.Item
-            name={FORM_DATA_FIELD.first_name}
+            name={FORM_DATA_FIELD.name}
             className="w-full"
             rules={[{ required: true, message: 'Tên không được bỏ trống!' }]}
           >
             <TextBoxWithLabel
-              name={FORM_DATA_FIELD.first_name}
+              name={FORM_DATA_FIELD.name}
               label="Tên của bạn"
               onChange={(event) => {
                 form.setFields([
-                  { name: FORM_DATA_FIELD.first_name, value: event.target.value },
-                ]);
-              }}
-            />
-          </Form.Item>
-          <Form.Item
-            name={FORM_DATA_FIELD.last_name}
-            className="w-full"
-            rules={[{ required: true, message: 'Họ và tên đệm không được bỏ trống!' }]}
-          >
-            <TextBoxWithLabel
-              name={FORM_DATA_FIELD.last_name}
-              label="Họ và tên đệm"
-              onChange={(event) => {
-                form.setFields([
-                  { name: FORM_DATA_FIELD.last_name, value: event.target.value },
+                  { name: FORM_DATA_FIELD.name, value: event.target.value },
                 ]);
               }}
             />
@@ -207,18 +206,6 @@ const StepEnterpriseInfo = ({ form }) => {
               }}
             />
           </Form.Item>
-          {isVerified ? (
-            <div className="absolute top-[38px] right-[21px] text-[#30AB7E]">
-              Đã xác thực
-            </div>
-          ) : (
-            <div
-              onClick={handleToggleVerify}
-              className="absolute top-[38px] right-[21px] underline cursor-pointer"
-            >
-              Lấy mã xác thực
-            </div>
-          )}
         </div>
         {/* gender */}
         <div className="flex gap-4">
@@ -322,7 +309,7 @@ const StepEnterpriseInfo = ({ form }) => {
                 onChange={handleSelectProvinces}
               >
                 {provinces.map((item) => (
-                  <Option key={item.codename} value={item.code}>
+                  <Option key={item.value} value={item.value}>
                     {item.name}
                   </Option>
                 ))}
@@ -341,7 +328,7 @@ const StepEnterpriseInfo = ({ form }) => {
                 onChange={() => {}}
               >
                 {districts.map((item) => (
-                  <Option key={item.codename} value={item.code}>
+                  <Option key={item.value} value={item.value}>
                     {item.name}
                   </Option>
                 ))}
@@ -415,6 +402,29 @@ const StepAccountInfo = ({ form }) => {
     <>
       <div className="flex flex-col gap-4 mt-5">
         <Form.Item
+          name={FORM_DATA_FIELD.userName}
+          className="w-full"
+          rules={[
+            {
+              required: true,
+              message: 'Email không được bỏ trống!',
+            },
+
+            // {
+            //   validator: async (rule, value) => {
+            //     const res = await checkEmail(value);
+            //     if (res?.data?.data?.isExist) {
+            //       return Promise.reject('Email đã tồn tại!');
+            //     }
+            //     return Promise.resolve();
+            //   },
+            // },
+          ]}
+          hasFeedback
+        >
+          <TextBoxWithLabel name={FORM_DATA_FIELD.email} label="Tên đăng nhập" />
+        </Form.Item>
+        <Form.Item
           name={FORM_DATA_FIELD.email}
           className="w-full"
           rules={[
@@ -465,7 +475,7 @@ const StepAccountInfo = ({ form }) => {
         </Form.Item>
         <Form.Item
           dependencies={[FORM_DATA_FIELD.password]}
-          name={FORM_DATA_FIELD.confirmed_password}
+          name={FORM_DATA_FIELD.confirmPassword}
           className="w-full"
           rules={[
             {
@@ -484,7 +494,7 @@ const StepAccountInfo = ({ form }) => {
           ]}
         >
           <TextBoxWithLabel
-            name={FORM_DATA_FIELD.confirmed_password}
+            name={FORM_DATA_FIELD.confirmPassword}
             inputType="password"
             label="Nhập lại mật khẩu"
           />
@@ -578,22 +588,13 @@ const SignUpModule = () => {
   const handleStepChange = async (isBack = false) => {
     console.log(currentStep, form.getFieldsValue());
     if (currentStep === steps[1].id && !isBack) {
-      const {
-        address,
-        city_id,
-        first_name,
-        last_name,
-        phone,
-        enterprise_name,
-        gender_id,
-        district_id,
-      } = form.getFieldsValue();
+      const { address, city_id, name, phone, enterprise_name, gender_id, district_id } =
+        form.getFieldsValue();
       if (
         !(
           address &&
           city_id &&
-          first_name &&
-          last_name &&
+          name &&
           phone &&
           enterprise_name &&
           gender_id &&
@@ -603,8 +604,8 @@ const SignUpModule = () => {
         form.validateFields([
           FORM_DATA_FIELD.address,
           FORM_DATA_FIELD.city_id,
-          FORM_DATA_FIELD.first_name,
-          FORM_DATA_FIELD.last_name,
+          FORM_DATA_FIELD.name,
+
           FORM_DATA_FIELD.phone,
           FORM_DATA_FIELD.enterprise_name,
           FORM_DATA_FIELD.district_id,
@@ -614,12 +615,12 @@ const SignUpModule = () => {
       }
     }
     if (currentStep === steps[2].id && !isBack) {
-      const { email, password, confirmed_password } = form.getFieldsValue();
-      if (!(email && password && confirmed_password)) {
+      const { email, password, confirmPassword } = form.getFieldsValue();
+      if (!(email && password && confirmPassword)) {
         form.validateFields([
           FORM_DATA_FIELD.email,
           FORM_DATA_FIELD.password,
-          FORM_DATA_FIELD.confirmed_password,
+          FORM_DATA_FIELD.confirmPassword,
         ]);
         return message.error('Vui lòng nhập đầy đủ thông tin!');
       }

@@ -10,10 +10,14 @@ import clsx from 'clsx';
 import { setCookie } from 'cookies-next';
 import Image from 'next/legacy/image';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { loginInstance, LoginResponse, TokenPair } from '../shared/api';
+import { useDispatch, useSelector } from 'react-redux';
+import { AnyAction } from '@reduxjs/toolkit';
+import { ThunkDispatch } from 'redux-thunk';
+import userLogin from '@/shared/services/userLogin';
+import { useRouter } from 'next/router';
 
 const LoginModule = () => {
   const [form] = Form.useForm();
@@ -26,7 +30,11 @@ const LoginModule = () => {
 
     onLogin(email, password, remember_me);
   };
-
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const handleRouting = () => {
+    router.push('/admin');
+  };
   const onLogin = async (
     email: FORM_DATA_FIELD.email,
     password: FORM_DATA_FIELD.password,
@@ -34,21 +42,12 @@ const LoginModule = () => {
   ) => {
     try {
       appLibrary.showloading();
-      const { code, payload }: { code: SV_RES_STATUS_CODE; payload: LoginResponse } =
-        await loginInstance.login(email, password, remember_me);
-      if (code === SV_RES_STATUS_CODE.success) {
-        message.success('Đăng nhập thành công');
-        message.success('Đang chuyển hướng đến trang quản trị');
-        setCookie(TokenPair.access_token, payload.access_token, {
-          expires: new Date(Date.now() + 1000 * 60 * 60 * 12),
-          secure: payload.secure,
-        });
-        setCookie(TokenPair.refresh_token, payload.refresh_token, {
-          expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
-          secure: payload.secure,
-        });
-        redirectToAdmin();
-      }
+      const thunkDispatch: ThunkDispatch<any, any, AnyAction> = dispatch;
+
+      thunkDispatch(userLogin({ email, password }));
+
+      appLibrary.hideloading();
+      handleRouting();
     } catch (error) {
       appLibrary.hideloading();
       message.error(error?.response?.data?.error ?? 'Đăng nhập thất bại');

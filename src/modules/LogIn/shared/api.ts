@@ -24,7 +24,7 @@ class Login {
     remember_me = false
   ) {
     const res = await axiosInstanceV2.post(
-      `${process.env.NEXT_PUBLIC_API_URL_V2}/enterprise/login`,
+      `${process.env.NEXT_PUBLIC_API_LOCAL}/api/User/authenticate`,
       {
         email,
         password,
