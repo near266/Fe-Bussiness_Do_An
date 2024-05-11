@@ -18,6 +18,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   accountAPI,
+  DetailEnterprise,
   UpdateAccountInfoPayload,
   UpdateEmailPayload,
   UpdatePasswordPayload,
@@ -25,6 +26,7 @@ import {
 } from '../../shared/api';
 import { CHANGE_PHONE_OPTION } from '../../shared/enum';
 import { IRepresent } from '@/interfaces/models/IRepresent';
+import { set } from 'date-fns';
 interface IProps {
   accountInfo: IRepresent;
 }
@@ -38,16 +40,30 @@ enum ToggleForgotFormOption {
 export const AccountInfoForm = ({ accountInfo }: IProps) => {
   const dispatch = useDispatch();
   const [form] = Form.useForm<FORM_DATA_FIELD>();
-  const user = useSelector((state: IRootState) => state.auth.me);
-  const [currentAccountInfo, setCurrentAccountInfo] = useState<IRepresent>(accountInfo);
+
+  const data = useSelector((state: any) => state.login.data);
+  const [currentAccountInfo, setCurrentAccountInfo] = useState<any>({});
   const [showVerify, setShowVerify] = useState(false);
   const [optToken, setOptToken] = useState<string>('');
   const [toggleForgotForm, setToggleForgotForm] = useState<ToggleForgotFormOption>(
     ToggleForgotFormOption.none
   );
+  const Enterprise = async (payload: DetailEnterprise) => {
+    const user = await accountAPI.getEnterpriseById(payload);
+    console.log(user);
+    form.setFieldsValue({ ...user });
+
+    setCurrentAccountInfo(user);
+    return user;
+  };
+
+  const rqEnterprise: DetailEnterprise = {
+    id: data.id,
+  };
   useEffect(() => {
     form.resetFields();
-    form.setFieldsValue({ ...currentAccountInfo });
+    Enterprise(rqEnterprise);
+    console.log(currentAccountInfo);
   }, [toggleForgotForm]);
 
   // handle Password change
@@ -57,7 +73,7 @@ export const AccountInfoForm = ({ accountInfo }: IProps) => {
     const payload: UpdatePasswordPayload = {
       new_password: formData[FORM_DATA_FIELD.new_password],
       current_password: formData[FORM_DATA_FIELD.password],
-      confirmed_password: formData[FORM_DATA_FIELD.confirmed_password],
+      confirmPassword: formData[FORM_DATA_FIELD.confirmPassword],
     };
     if (Object.values(payload).some((value) => !value)) {
       message.error('Vui lòng nhập đầy đủ thông tin');
@@ -76,7 +92,7 @@ export const AccountInfoForm = ({ accountInfo }: IProps) => {
         form.resetFields([
           FORM_DATA_FIELD.password,
           FORM_DATA_FIELD.new_password,
-          FORM_DATA_FIELD.confirmed_password,
+          FORM_DATA_FIELD.confirmPassword,
         ]);
       }
       appLibrary.hideloading();
@@ -250,17 +266,15 @@ export const AccountInfoForm = ({ accountInfo }: IProps) => {
   const handleAccountInfoChange = () => {
     form.validateFields([
       FORM_DATA_FIELD.gender_id,
-      FORM_DATA_FIELD.first_name,
-      FORM_DATA_FIELD.last_name,
+      FORM_DATA_FIELD.name,
       FORM_DATA_FIELD.address,
     ]);
 
     const formData = form.getFieldsValue();
     const payload: UpdateAccountInfoPayload = {
       address: formData[FORM_DATA_FIELD.address],
-      first_name: formData[FORM_DATA_FIELD.first_name],
+      name: formData[FORM_DATA_FIELD.name],
       gender_id: formData[FORM_DATA_FIELD.gender_id],
-      last_name: formData[FORM_DATA_FIELD.last_name],
     };
     if (Object.values(payload).some((value) => !value)) {
       message.error('Vui lòng nhập đầy đủ thông tin');
@@ -359,36 +373,10 @@ export const AccountInfoForm = ({ accountInfo }: IProps) => {
                               Gmail
                             </p>
                           }
-                          placeholder="Email"
+                          placeholder={data.email}
                           inputType="email"
                         />
                       </Form.Item>
-                      <div className="absolute top-[43px] right-[10px]">
-                        {accountInfo.email_verified ? (
-                          <div className="flex ">
-                            <p className="text-[14px] text-[#30AB7E]">Đã xác minh</p>
-                            &nbsp;&nbsp;
-                            <Image
-                              onClick={() =>
-                                setToggleForgotForm(ToggleForgotFormOption.email)
-                              }
-                              className="cursor-pointer"
-                              width={18}
-                              height={18}
-                              objectFit="contain"
-                              src={SrcIcons.sideBarPen}
-                              alt="Eztek Doanh nghiệp"
-                            />
-                          </div>
-                        ) : (
-                          <p
-                            className="text-[14px] underline text-primary cursor-pointer"
-                            onClick={() => {}}
-                          >
-                            Lấy mã xác thực
-                          </p>
-                        )}
-                      </div>
                     </div>
                   </div>
                   <div>
@@ -407,7 +395,7 @@ export const AccountInfoForm = ({ accountInfo }: IProps) => {
                       />
                     </Form.Item>
                     <p
-                      className="text-[14px] text-[#22216D] mt-2 cursor-pointer"
+                      className="text-[18px] text-[#22216D] mt-2 cursor-pointer"
                       onClick={() => setToggleForgotForm(ToggleForgotFormOption.password)}
                     >
                       Đổi mật khẩu
@@ -420,33 +408,16 @@ export const AccountInfoForm = ({ accountInfo }: IProps) => {
                 </h3>
                 <div className="flex gap-2">
                   <Form.Item
-                    name={FORM_DATA_FIELD.first_name}
+                    name={FORM_DATA_FIELD.name}
                     className="w-full"
                     rules={[{ required: true, message: 'Tên không được bỏ trống!' }]}
                   >
                     <TextBoxWithLabel
-                      name={FORM_DATA_FIELD.first_name}
+                      name={FORM_DATA_FIELD.name}
                       label="Tên của bạn"
                       onChange={(event) => {
                         form.setFields([
-                          { name: FORM_DATA_FIELD.first_name, value: event.target.value },
-                        ]);
-                      }}
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    name={FORM_DATA_FIELD.last_name}
-                    className="w-full"
-                    rules={[
-                      { required: true, message: 'Họ và tên đệm không được bỏ trống!' },
-                    ]}
-                  >
-                    <TextBoxWithLabel
-                      name={FORM_DATA_FIELD.last_name}
-                      label="Họ và tên đệm"
-                      onChange={(event) => {
-                        form.setFields([
-                          { name: FORM_DATA_FIELD.last_name, value: event.target.value },
+                          { name: FORM_DATA_FIELD.name, value: event.target.value },
                         ]);
                       }}
                     />
@@ -591,7 +562,7 @@ export const AccountInfoForm = ({ accountInfo }: IProps) => {
                   ]}
                 >
                   <FileUploader
-                    defaultImage={accountInfo.avatar}
+                    defaultImage={currentAccountInfo.avatar}
                     className="flex flex-col"
                     customButton={
                       <p className="!mt-[50px] underline text-[#403ECC] text-[16px]">
@@ -772,7 +743,7 @@ export const AccountInfoForm = ({ accountInfo }: IProps) => {
                       Nhập lại mật khẩu mới
                     </p>
                     <Form.Item
-                      name={FORM_DATA_FIELD.confirmed_password}
+                      name={FORM_DATA_FIELD.confirmPassword}
                       dependencies={[FORM_DATA_FIELD.new_password]}
                       hasFeedback
                       rules={[

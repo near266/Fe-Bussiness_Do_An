@@ -7,7 +7,6 @@ import { useSelector } from 'react-redux';
 const Auth = ({ children }) => {
   const { role_codes } = useSelector((state: IRootState) => state.auth.me);
   const { loading, data, succeeded } = useSelector((state: any) => state.login);
-  console.log(data);
   const isAuthenticated = succeeded;
 
   const isAdmin = data?.roles.includes('Enterprise');

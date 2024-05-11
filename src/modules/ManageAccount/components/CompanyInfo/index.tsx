@@ -1,7 +1,7 @@
 import FileUploader from '@/components/FileUpload';
 import { IEnterprise } from '@/interfaces/models/IEnterprise';
 import { IField } from '@/interfaces/models/IField';
-import { recruitmentsAPI } from '@/modules/ManageRecruitment/shared/api';
+import { recruitmentsAPI, ViewAllFields } from '@/modules/ManageRecruitment/shared/api';
 import { ENTERPRISE_FORM } from '@/modules/SignUp/shared/enums';
 import { SV_RES_STATUS_CODE } from '@/shared/enums/enums';
 import { appLibrary } from '@/shared/utils/loading';
@@ -11,30 +11,75 @@ import FormItem from 'antd/lib/form/FormItem';
 import { isMatch } from 'lodash-es';
 import 'moment/locale/vi';
 import { useCallback, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import useSWR from 'swr';
-import { accountAPI, UpdateEnterpriseInfoPayload } from '../../shared/api';
+import {
+  accountAPI,
+  DetailEnterprise,
+  UpdateEnterpriseInfoPayload,
+} from '../../shared/api';
 import { convertOption, SCALE } from '../../shared/enum';
+import { adressAPI } from '@/shared/services';
+import { useDispatch, useSelector } from 'react-redux';
+
 interface IProps {
-  company: IEnterprise;
+  company: any;
 }
 
 const { TextArea } = Input;
 
 export const CompanyInfoForm = ({ company }: IProps) => {
   const dispatch = useDispatch();
-  const { data: fields } = useSWR('get-fields', () => recruitmentsAPI.getFields());
+
   const [isLoading, setisLoading] = useState(true);
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
-  const [form] = Form.useForm<IEnterprise>();
-  const [currentCompanyInfo, setCurrentCompanyInfo] = useState<IEnterprise>(company);
+  const [getFields, setFields] = useState([]);
+  const [Img, setImageUrl] = useState('');
+
+  const [form] = Form.useForm<any>();
+  const [currentCompanyInfo, setCurrentCompanyInfo] = useState<any>({});
+  const data = useSelector((state: any) => state.login.data);
+  const rqEnterprise: DetailEnterprise = {
+    id: data.id,
+  };
+  enum ToggleForgotFormOption {
+    none = '',
+    email = 'email',
+    password = 'password',
+    phoneNumber = 'phoneNumber',
+  }
+  const [toggleForgotForm, setToggleForgotForm] = useState<ToggleForgotFormOption>(
+    ToggleForgotFormOption.none
+  );
+
+  const payload: ViewAllFields = {
+    page: 1,
+    pageSize: 100000,
+  };
+  const getAllFields = async () => {
+    const res = await recruitmentsAPI.getFields(payload);
+    setFields(res.items);
+  };
+  const Enterprise = async (payload: DetailEnterprise) => {
+    const user = await accountAPI.getEnterpriseById(payload);
+    setImageUrl(user.avatar);
+    setCurrentCompanyInfo(user);
+    form.setFieldsValue({ ...user });
+    return user;
+  };
+
+  useEffect(() => {
+    getAllFields();
+
+    form.resetFields();
+    Enterprise(rqEnterprise);
+  }, [Img]);
 
   const getProvincesData = useCallback(async () => {
     appLibrary.showloading();
     try {
-      const res = await accountAPI.fetchProvinces();
+      const res = await adressAPI.getCity();
       if (res) {
         setProvinces([...res]);
       }
@@ -45,12 +90,12 @@ export const CompanyInfoForm = ({ company }: IProps) => {
     }
   }, []);
 
-  const getDistrictsData = useCallback(async (city_id: number) => {
+  const getDistrictsData = useCallback(async (city_id: string) => {
     appLibrary.showloading();
     try {
-      const res = await accountAPI.fetchDistricts(city_id);
+      const res = await adressAPI.FindDistrictByCity(city_id);
       if (res) {
-        setDistricts([...res.districts]);
+        setDistricts([...res]);
       }
       appLibrary.hideloading();
     } catch (error) {
@@ -59,12 +104,12 @@ export const CompanyInfoForm = ({ company }: IProps) => {
     }
   }, []);
 
-  const getWardsData = useCallback(async (district_id: number) => {
+  const getWardsData = useCallback(async (district_id: string) => {
     appLibrary.showloading();
     try {
-      const res = await accountAPI.fetchWards(district_id);
+      const res = await adressAPI.FindWardByDitrict(district_id);
       if (res) {
-        setWards([...res.wards]);
+        setWards([...res]);
       }
       appLibrary.hideloading();
     } catch (error) {
@@ -112,6 +157,7 @@ export const CompanyInfoForm = ({ company }: IProps) => {
     const formData = form.getFieldsValue();
     console.log(formData);
     const payload: UpdateEnterpriseInfoPayload = {
+      id: currentCompanyInfo.id,
       abbreviation_name: formData[ENTERPRISE_FORM.abbreviation_name],
       address: formData[ENTERPRISE_FORM.address],
       career_field_id: formData[ENTERPRISE_FORM.career_field_id],
@@ -170,19 +216,17 @@ export const CompanyInfoForm = ({ company }: IProps) => {
   const onUpdateAvatar = async () => {
     const formData = new FormData();
     const { avatar } = form.getFieldsValue([ENTERPRISE_FORM.avatar]);
-    formData.append('avatar', avatar?.file?.originFileObj ?? avatar);
+    formData.append('file', avatar?.file?.originFileObj ?? avatar);
     try {
       appLibrary.showloading();
-      const { code, data } = await accountAPI.updateAvatar(formData);
-      if (code === SV_RES_STATUS_CODE.success) {
-        // update avatar in redux
-        dispatch(
-          setUserFieldValue({
-            avatar: data?.url,
-          })
-        );
-        message.success('Cập nhật ảnh đại diện thành công');
-      }
+      const res = await accountAPI.updateAvatar(formData);
+      const url = await accountAPI.getUrlCDN(res.getInfoUri);
+
+      const urlavatar = res.stringConnect + url.downloadTokens;
+      // const payloadUpdateAvatar :
+      // await accountAPI.updateAccountInfo()
+      message.success('Cập nhật ảnh đại diện thành công');
+
       appLibrary.hideloading();
     } catch (error) {
       appLibrary.hideloading();
@@ -288,7 +332,7 @@ export const CompanyInfoForm = ({ company }: IProps) => {
                       className="!rounded-[10px] bg-white w-full"
                       onChange={handleCityChange}
                       options={provinces?.map((item) => {
-                        return { key: item.code, value: item.code, label: item.name };
+                        return { key: item.value, value: item.value, label: item.value };
                       })}
                     />
                   </FormItem>
@@ -308,7 +352,7 @@ export const CompanyInfoForm = ({ company }: IProps) => {
                       className="!rounded-[10px] bg-white w-full"
                       onChange={handleDistrictChange}
                       options={districts?.map((item) => {
-                        return { key: item.code, value: item.code, label: item.name };
+                        return { key: item.value, value: item.value, label: item.value };
                       })}
                     />
                   </FormItem>
@@ -327,7 +371,7 @@ export const CompanyInfoForm = ({ company }: IProps) => {
                       placeholder="Chọn xã/phường"
                       className="!rounded-[10px] bg-white w-full"
                       options={wards?.map((item) => {
-                        return { key: item.code, value: item.code, label: item.name };
+                        return { key: item.value, value: item.value, label: item.value };
                       })}
                     />
                   </FormItem>
@@ -382,8 +426,8 @@ export const CompanyInfoForm = ({ company }: IProps) => {
                       size="large"
                       className="!rounded-[10px] bg-white w-full h-full m-0"
                       options={
-                        fields &&
-                        fields.map((fields: IField) => ({
+                        getFields &&
+                        getFields.map((fields) => ({
                           key: fields.id,
                           value: fields.id,
                           label: fields.name,
@@ -418,7 +462,7 @@ export const CompanyInfoForm = ({ company }: IProps) => {
                   ]}
                 >
                   <FileUploader
-                    defaultImage={company.avatar}
+                    defaultImage={Img}
                     className="flex flex-col"
                     customButton={
                       <p className="!mt-[50px] underline text-[#403ECC] text-[16px]">

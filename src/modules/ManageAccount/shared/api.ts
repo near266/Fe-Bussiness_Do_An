@@ -9,7 +9,7 @@ import { CHANGE_PHONE_OPTION } from './enum';
 export type UpdatePasswordPayload = {
   current_password: FORM_DATA_FIELD.password;
   new_password: FORM_DATA_FIELD.new_password;
-  confirmed_password: FORM_DATA_FIELD.confirmed_password;
+  confirmPassword: FORM_DATA_FIELD.confirmPassword;
 };
 
 export type UpdatePhoneNumberPayload = {
@@ -24,25 +24,27 @@ export type UpdateEmailPayload = {
 };
 
 export type UpdateAccountInfoPayload = {
-  first_name: string;
-  last_name: string;
+  name: string;
   gender_id: GENDER_CODE;
   address: string;
 };
 export type UpdateEnterpriseInfoPayload = {
+  id: string;
   enterprise_name: string;
   abbreviation_name: string;
   scale_id: ScaleId;
-  city_id: number;
-  district_id: number;
-  ward_id: number;
+  city_id: string;
+  district_id: string;
+  ward_id: string;
   address: string;
   career_field_id: number;
   website_url: string;
   enterprise_introduce: string;
   phone: string;
 };
-
+export type DetailEnterprise = {
+  id: string;
+};
 class AccountAPI {
   async getEnterpriseLicense() {
     const res = await apiEnterprise.get('enterprises/account/business-license');
@@ -74,7 +76,7 @@ class AccountAPI {
   }
   // update Enterprise
   async updateEnterpriseInfo(payload: UpdateEnterpriseInfoPayload) {
-    const res = await apiEnterprise.put('enterprises/info', payload);
+    const res = await apiEnterprise.put('/api/UserInfo/Enterprise/Update', payload);
     return res.data;
   }
   // update Account
@@ -97,14 +99,21 @@ class AccountAPI {
     const res = await apiEnterprise.put('enterprises/account/info', payload);
     return res.data;
   }
-
+  async getUrlCDN(url) {
+    const res = await apiEnterprise.get(`${url}`);
+    return res.data;
+  }
   async updateAvatar(payload: FormData | string) {
-    const res = await apiEnterprise.post('enterprises/account/avatar', payload);
+    const res = await apiEnterprise.post('/api/Upload/uploadV2', payload);
     return res.data;
   }
 
   async getStatus() {
     const res = await apiEnterprise.get('enterprises/status');
+    return res.data;
+  }
+  async getEnterpriseById(payload: DetailEnterprise) {
+    const res = await apiEnterprise.post('/api/UserInfo/Enterprise/Detail', payload);
     return res.data;
   }
 }

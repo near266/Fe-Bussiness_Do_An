@@ -4,9 +4,9 @@ export interface IEnterprise {
   id: string;
   name: string;
   scale_id: ScaleId;
-  city_id: number;
-  district_id: number;
-  ward_id: number;
+  city_id: string;
+  district_id: string;
+  ward_id: string;
   map_url: null;
   phone: string;
   career_field_id: number;

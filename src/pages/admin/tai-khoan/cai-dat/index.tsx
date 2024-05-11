@@ -5,8 +5,8 @@ import { fetchSSR } from '@/shared/axios/fetchSSR';
 import { NextPage } from 'next';
 
 type Props = {
-  enterpriseInfo: IEnterprise;
-  accountInfo: IRepresent;
+  enterpriseInfo: any;
+  accountInfo: any;
 };
 const SettingPage: NextPage = (props: Props) => {
   const { enterpriseInfo, accountInfo } = props;
@@ -32,7 +32,12 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       },
     };
   } catch (error) {
-    return { notFound: true };
+    return {
+      props: {
+        accountInfo: {},
+        enterpriseInfo: {},
+      },
+    };
   }
 };
 

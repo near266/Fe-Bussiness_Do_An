@@ -13,10 +13,14 @@ export type PayloadContact = {
   phone: string;
   content: string;
 };
+export type ViewAllFields = {
+  page: number;
+  pageSize: number;
+};
 class RecruitmentsAPI {
-  getFields = async () => {
-    const { data } = await apiEnterprise.get<IServerResponse>('/career-fields');
-    return data.data as IField[];
+  getFields = async (payload: ViewAllFields) => {
+    const data = await apiEnterprise.post('/api/Cv/Cv/ViewAll-careerfields', payload);
+    return data.data;
   };
 
   async getAllTags() {

@@ -18,6 +18,8 @@ const UserPop: React.FC = (props: IProps) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const dispatch = useDispatch();
   const user = useSelector((state: IRootState) => state.auth.me);
+  const data = useSelector((state: any) => state.login.data);
+
   const handleClick = (e) => {
     setIsOpen(!isOpen);
     setAnchorEl(anchorEl ? null : e.target);
@@ -54,8 +56,8 @@ const UserPop: React.FC = (props: IProps) => {
         >
           <div className="min-w-[240px] m-[2px_10px_0_0] shadow-[0_2px_4px_rgba(0,0,0,0.1)] bg-white border border-solid border-[#e5e5e5] rounded-[10px] overflow-hidden">
             <div className="p-[10px_12px_8px]">
-              <div className="font-bold">{user.name}</div>
-              <div className="username">{`@${user.username}`}</div>
+              <div className="font-bold">{data.userName}</div>
+              <div className="username">{`@${data.userName}`}</div>
             </div>
             <div className="h-[1px] m-0 p-0 bg-[#dfdfdf]" />
             <ul className="list-none pl-0 m-0">
