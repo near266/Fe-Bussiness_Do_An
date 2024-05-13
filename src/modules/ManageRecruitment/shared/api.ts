@@ -130,12 +130,20 @@ export type UpdatePost = {
 export type Detail = {
   id: string;
 };
+export type SearchPost = {
+  enterprise_id: string;
+  page: number;
+  pageSize: number;
+};
 class RecruitmentsAPI {
   getFields = async (payload: ViewAllFields) => {
     const data = await apiEnterprise.post('/api/Cv/Cv/ViewAll-careerfields', payload);
     return data.data;
   };
-
+  getAllPost = async (payload: SearchPost) => {
+    const data = await apiEnterprise.post('/api/Cv/job-post/search', payload);
+    return data.data;
+  };
   getCareee = async (payload: SearchCaree) => {
     const data = await apiEnterprise.post('/api/Cv/caree/search', payload);
     return data.data;
