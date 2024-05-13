@@ -5,9 +5,11 @@ import { Grid, User } from '@nextui-org/react';
 import clsx from 'clsx';
 import Image from 'next/legacy/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './styles.module.scss';
+import { accountAPI, DetailEnterprise } from '@/modules/ManageAccount/shared/api';
+import { asyncMap } from '@apollo/client/utilities';
 
 export interface IProps {
   data?: '';
@@ -19,11 +21,29 @@ const UserPop: React.FC = (props: IProps) => {
   const dispatch = useDispatch();
   const user = useSelector((state: IRootState) => state.auth.me);
   const data = useSelector((state: any) => state.login.data);
+  const [company, setCompany] = useState();
+  const [img, setImg] = useState('');
 
   const handleClick = (e) => {
     setIsOpen(!isOpen);
     setAnchorEl(anchorEl ? null : e.target);
   };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const payload: DetailEnterprise = {
+          id: data.id,
+        };
+        const enterprise = await accountAPI.getEnterpriseById(payload);
+        setImg(enterprise.avatar);
+        console.log(enterprise);
+      } catch (error) {
+        // Xử lý lỗi nếu có
+      }
+    };
+
+    fetchData();
+  }, [data.id]);
   const logout = () => {
     appLibrary.showloading();
     dispatch(asyncLogoutAuth());
@@ -34,7 +54,7 @@ const UserPop: React.FC = (props: IProps) => {
         className="flex h-full items-center gap-3"
         onClick={() => setIsOpen((pre) => !pre)}
       >
-        <User as="button" size="md" color="primary" name="" src={user?.avatar} />
+        <User as="button" size="md" color="primary" name="" src={img} />
         <Image
           objectFit="contain"
           src={SrcIcons.dropDown}

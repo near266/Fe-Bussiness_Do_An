@@ -163,8 +163,8 @@ export const CompanyInfoForm = ({ company }: IProps) => {
       career_field_id: formData[ENTERPRISE_FORM.career_field_id],
       city_id: formData[ENTERPRISE_FORM.city_id],
       district_id: formData[ENTERPRISE_FORM.district_id],
-      enterprise_introduce: formData[ENTERPRISE_FORM.introduce],
-      enterprise_name: formData[ENTERPRISE_FORM.name],
+      introduce: formData[ENTERPRISE_FORM.introduce],
+      enterprise_name: formData[ENTERPRISE_FORM.enterprise_name],
       scale_id: formData[ENTERPRISE_FORM.scale_id],
       ward_id: formData[ENTERPRISE_FORM.ward_id],
       website_url: formData[ENTERPRISE_FORM.website_url],
@@ -182,13 +182,16 @@ export const CompanyInfoForm = ({ company }: IProps) => {
     }
     const { avatar } = form.getFieldsValue([ENTERPRISE_FORM.avatar]);
     // if both avatar and account info are not changed then show message else update which is changed
-    if (isMatch(company, payload) && isMatch(company.avatar, avatar)) {
+    if (
+      isMatch(currentCompanyInfo, payload) &&
+      isMatch(currentCompanyInfo.avatar, avatar)
+    ) {
       return message.warning('Không có thông tin nào thay đổi');
     }
-    if (!isMatch(company, payload)) {
+    if (!isMatch(currentCompanyInfo, payload)) {
       onEnterpriseInfoChange(payload);
     }
-    if (!isMatch(company.avatar, avatar)) {
+    if (!isMatch(currentCompanyInfo.avatar, avatar)) {
       onUpdateAvatar();
     }
   };
@@ -197,10 +200,10 @@ export const CompanyInfoForm = ({ company }: IProps) => {
     try {
       appLibrary.showloading();
       const { code } = await accountAPI.updateEnterpriseInfo(payload);
-      if (code === SV_RES_STATUS_CODE.success) {
-        message.success('Cập nhật thông tin thành công');
-        // setToggleForgotForm(ToggleForgotFormOption.none);
-      }
+
+      message.success('Cập nhật thông tin thành công');
+      // setToggleForgotForm(ToggleForgotFormOption.none);
+
       appLibrary.hideloading();
     } catch (error) {
       appLibrary.hideloading();
@@ -223,6 +226,11 @@ export const CompanyInfoForm = ({ company }: IProps) => {
       const url = await accountAPI.getUrlCDN(res.getInfoUri);
 
       const urlavatar = res.stringConnect + url.downloadTokens;
+      const payloadUpdate: any = {
+        id: currentCompanyInfo.id,
+        avatar: urlavatar,
+      };
+      await accountAPI.updateEnterpriseInfo(payloadUpdate);
       // const payloadUpdateAvatar :
       // await accountAPI.updateAccountInfo()
       message.success('Cập nhật ảnh đại diện thành công');
@@ -263,12 +271,12 @@ export const CompanyInfoForm = ({ company }: IProps) => {
                   </p>
 
                   <Form.Item
-                    name={ENTERPRISE_FORM.name}
+                    name={ENTERPRISE_FORM.enterprise_name}
                     className="w-full"
                     rules={[{ required: true, message: 'Tên không được bỏ trống!' }]}
                   >
                     <Input
-                      name={ENTERPRISE_FORM.name}
+                      name={ENTERPRISE_FORM.enterprise_name}
                       size="large"
                       className="rounded-[10px] bg-white w-full"
                       allowClear

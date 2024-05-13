@@ -9,6 +9,12 @@ import Image from 'next/legacy/image';
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import { TruncateLines } from 'react-truncate-lines';
+import tiktokImg from 'public/icons/bag.svg';
+import logo from 'public/icons/youth-plus-logo.svg';
+import fb from 'public/icons/facebook-f.svg';
+import { FaTiktok } from 'react-icons/fa6';
+import { FaInstagram } from 'react-icons/fa';
+import { FaFacebook } from 'react-icons/fa';
 import {
   MASTER_DATA_EXPERIENCE_MAP,
   MASTER_DATA_GENDER_MAP,
@@ -17,16 +23,21 @@ import {
   MASTER_DATA_WORKING_METHOD_MAP,
 } from '../../shared/constance';
 import { RECRUITMENT_DATA_FIELD } from '../../shared/enums';
+import { DetailEnterprise, accountAPI } from '@/modules/ManageAccount/shared/api';
+import { useSelector } from 'react-redux';
+import { Detail, recruitmentsAPI } from '../../shared/api';
 
 interface IProps {
   form: FormInstance<any>;
-  enterpriseInfo: IEnterprise;
+  idPost: string;
 }
 const RecruitmentDetailModule = (props: IProps) => {
-  const { form, enterpriseInfo } = props;
+  const { form } = props;
+  const { idPost } = props;
   const [formValues, setFormValues] = useState<RECRUITMENT_DATA_FIELD>(
     form?.getFieldsValue()
   );
+  const [post, setPost] = useState<any>({});
   const side1 = useMemo(
     () => [
       {
@@ -56,6 +67,45 @@ const RecruitmentDetailModule = (props: IProps) => {
     ],
     [form]
   );
+  const data = useSelector((state: any) => state.login.data);
+  const [currentAccountInfo, setCurrentAccountInfo] = useState<any>({});
+  const [careers, setCareers] = useState<any>({});
+  const [Fields, setFields] = useState<any>({});
+
+  const [Img, setImageUrl] = useState('');
+
+  const Enterprise = async (payload: DetailEnterprise) => {
+    const user = await accountAPI.getEnterpriseById(payload);
+    const Post = await recruitmentsAPI.getRecruitmentById(idPost);
+    console.log(Post);
+    const rqCaree: Detail = {
+      id: Post.career_id,
+    };
+    const reFields: Detail = {
+      id: Post.career_field_id,
+    };
+    const Caree = await recruitmentsAPI.getCareeeDetail(rqCaree);
+    setCareers(Caree);
+    const Fields = await recruitmentsAPI.getCareeeFields(reFields);
+    setFields(Fields);
+
+    setPost(Post);
+
+    setImageUrl(user.avatar);
+
+    form.setFieldsValue({ ...user });
+
+    setCurrentAccountInfo(user);
+    return user;
+  };
+  const rqEnterprise: DetailEnterprise = {
+    id: data.id,
+  };
+  useEffect(() => {
+    form.resetFields();
+    Enterprise(rqEnterprise);
+    console.log(currentAccountInfo);
+  }, [Img]);
 
   const side2 = useMemo(
     () => [
@@ -87,14 +137,7 @@ const RecruitmentDetailModule = (props: IProps) => {
     <div className="bg-white rounded-[10px] flex flex-col xl:flex-row xl:bg-transparent gap-5 ">
       <div className="rounded-[10px] flex flex-col w-full overflow-hidden bg-white xl:card !shadow-none">
         <div className="cover relative h-[173px] md:h-[266px] ">
-          <Image
-            src={
-              formValues[RECRUITMENT_DATA_FIELD.caching]?.avatar ?? SrcImages.sideImage
-            }
-            alt="Eztek Doanh nghiệp"
-            layout="fill"
-            objectFit="cover"
-          />
+          <img src={post.image_url} alt="" className="h-full w-full object-fill" />
         </div>
         <div className="flex flex-col contentpt-0 ">
           <div className="recruitment  p-[15px] md:p-[24px] ">
@@ -106,14 +149,7 @@ const RecruitmentDetailModule = (props: IProps) => {
                 </h1>
               </div>
               <div className="icons flex w-fit items-center -translate-y-[40%] text-left">
-                <div className="sm:hidden relative border-[4px] border-solid border-[#FAFAFB] bg-[#FAFAFB] rounded-[10px] overflow-hidden h-16 w-16">
-                  <Image
-                    src={enterpriseInfo.avatar}
-                    alt="Eztek Doanh nghiệp"
-                    layout="fill"
-                    objectFit="contain"
-                  />
-                </div>
+                <div className="sm:hidden relative border-[4px] border-solid border-[#FAFAFB] bg-[#FAFAFB] rounded-[10px] overflow-hidden h-16 w-16"></div>
                 <div className="flex gap-4 ml-auto">
                   <div className="bg-white relative ml-auto p-2 rounded-[10px] h-[34px] w-[34px] drop-shadow-[0_0_2px_rgba(0,0,0,0.25)]">
                     <Image
@@ -134,26 +170,12 @@ const RecruitmentDetailModule = (props: IProps) => {
                 </div>
               </div>
             </div>
+
             <div className="grid grid-cols-1 sm:grid-cols-2">
               {Array.from([
-                `${
-                  formValues[RECRUITMENT_DATA_FIELD.caching][
-                    RECRUITMENT_DATA_FIELD.district_id
-                  ]?.children
-                } - ${
-                  formValues[RECRUITMENT_DATA_FIELD.caching][
-                    RECRUITMENT_DATA_FIELD.city_id
-                  ]?.children
+                `${formValues[RECRUITMENT_DATA_FIELD.district_id]} - ${
+                  formValues[RECRUITMENT_DATA_FIELD.city_id]
                 }`,
-                formValues[RECRUITMENT_DATA_FIELD.caching][
-                  RECRUITMENT_DATA_FIELD.career_id
-                ]?.children,
-                formValues[RECRUITMENT_DATA_FIELD.caching][
-                  RECRUITMENT_DATA_FIELD.career_field_id
-                ]?.children,
-                formValues[RECRUITMENT_DATA_FIELD.caching][
-                  RECRUITMENT_DATA_FIELD.career_field_id
-                ]?.children,
               ]).map((item, index) =>
                 index !== 2 ? (
                   <p
@@ -162,7 +184,11 @@ const RecruitmentDetailModule = (props: IProps) => {
                       'font-[300] text-[18px] leading-[28px] text-[#44444F]'
                     )}
                   >
-                    {index === 3 && <span>Lĩnh vực - </span>} {item}
+                    <div className="flex justify-between">
+                      <div className="m-4"> Địa điểm : {item}</div>
+                      <div className="m-4"> Ngành: {careers.name}</div>
+                      <div className="m-4"> Lĩnh vực: {Fields.name}</div>
+                    </div>
                   </p>
                 ) : (
                   <div className={clsx('flex items-end')}>
@@ -309,7 +335,7 @@ const RecruitmentDetailModule = (props: IProps) => {
                   </ul> */}
                 </>
               ))}
-            <div className="my-5 flex flex-col md:flex-row md:justify-between gap-4">
+            {/* <div className="my-5 flex flex-col md:flex-row md:justify-between gap-4">
               <p className="text-primary font-semibold text-4 md:text-[18px]">
                 Bạn thấy phù hợp với công việc?
               </p>
@@ -321,9 +347,9 @@ const RecruitmentDetailModule = (props: IProps) => {
                   Ứng tuyển ngay
                 </button>
               </div>
-            </div>
+            </div> */}
 
-            <div className="w-full flex gap-[1rem] flex-row items-center">
+            {/* <div className="w-full flex gap-[1rem] flex-row items-center">
               <p className="text-primary font-[400] text-[13px] md:text-[16px]">Tag:</p>
               {Array.from<string>(formValues[RECRUITMENT_DATA_FIELD.tags]).map((tag) => (
                 <div
@@ -334,7 +360,7 @@ const RecruitmentDetailModule = (props: IProps) => {
                   <p>{tag}</p>
                 </div>
               ))}
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -344,7 +370,7 @@ const RecruitmentDetailModule = (props: IProps) => {
         <div className="bg-white  px-[15px] md:px-[20px] rounded-[10px] ">
           <div className="flex flex-col  gap-4">
             <p className="leading-[34px] text-primary font-[500] text-[24px] mt-5  mb-[8px] xl:font[400] xl:text-[18px] xl:leading-[24px]">
-              {enterpriseInfo.name}
+              {currentAccountInfo.enterprise_name}
             </p>
             <p className="font-semibold text-[16px] leading-[24px] text-[#22216D]">
               Thông tin công ty
@@ -359,28 +385,29 @@ const RecruitmentDetailModule = (props: IProps) => {
               }
               className="text-[#696974] font-[300] text-[17px] md:text-[16px] "
             >
-              {enterpriseInfo.introduce}
+              {currentAccountInfo.introduce}
             </TruncateLines>
             <div className="map ">
               <p className="font-semibold text-[16px] leading-[24px] text-[#22216D] mb-5">
                 Vi trí
               </p>
-              {enterpriseInfo.map_url}
+              {currentAccountInfo.address}, {currentAccountInfo.city_id},{' '}
+              {currentAccountInfo.district_id},{currentAccountInfo.ward_id}
             </div>
             <div className="flex gap-4 items-center">
               <p className="font-semibold text-[16px] leading-[24px] text-[#22216D]">
                 Website
               </p>
               <Link href="#" legacyBehavior>
-                <span> {enterpriseInfo.website_url}</span>
+                <span> {currentAccountInfo.website_url}</span>
               </Link>
             </div>
             <div className="flex gap-4 items-center">
               <p className="font-semibold text-[16px] leading-[24px] text-[#22216D]">
                 Quy mô
               </p>
-              {enterpriseInfo.scale_id && (
-                <p>{ScaleId[`STR_SCALE_${enterpriseInfo.scale_id}`]}&nbsp; người</p>
+              {currentAccountInfo.scale_id && (
+                <p>{ScaleId[`STR_SCALE_${currentAccountInfo.scale_id}`]}&nbsp; người</p>
               )}
             </div>
           </div>
@@ -397,7 +424,10 @@ const RecruitmentDetailModule = (props: IProps) => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <img src="/icons/facebook_v2.svg" alt="Facebook" />
+                <div className="flex items-center">
+                  <FaFacebook />
+                  <p className="pl-1">Facebook</p>
+                </div>
               </a>
             </li>
             <li className="list-inline-item social">
@@ -407,7 +437,10 @@ const RecruitmentDetailModule = (props: IProps) => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <img src="/icons/instagram_v2.svg" alt="Instagram" />
+                <div className="flex items-center">
+                  <FaInstagram />
+                  <p className="pl-1">Instagram</p>
+                </div>
               </a>
             </li>
             <li className="list-inline-item social">
@@ -417,7 +450,10 @@ const RecruitmentDetailModule = (props: IProps) => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <img src="/icons/tiktok.svg" alt="Tiktok Youth" />
+                <div className="flex items-center">
+                  <FaTiktok />
+                  <p className="pl-1">Tiktok</p>
+                </div>
               </a>
             </li>
           </ul>

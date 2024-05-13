@@ -20,6 +20,7 @@ export enum FORM_DATA_FIELD {
   field = 'field',
   verify_code = 'code',
   avatar = 'avatar',
+  oldPass = 'oldPass',
 }
 
 export enum ENTERPRISE_FORM {
@@ -41,6 +42,7 @@ export enum ENTERPRISE_FORM {
   represent = 'represent',
   plan = 'plan',
   phone_verified = 'phone_verified',
+  enterprise_name = 'enterprise_name',
 }
 
 // enum getopt type

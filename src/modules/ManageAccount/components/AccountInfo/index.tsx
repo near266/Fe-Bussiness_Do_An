@@ -11,8 +11,8 @@ import { registerInstance } from '@/modules/SignUp/shared/api';
 import { FORM_DATA_FIELD, GET_OTP_TYPE } from '@/modules/SignUp/shared/enums';
 import { GENDER_CODE, SV_RES_STATUS_CODE } from '@/shared/enums/enums';
 import { appLibrary } from '@/shared/utils/loading';
-import { IRootState, setUserFieldValue } from '@/store';
-import clsx from 'clsx';
+import { asyncLogoutAuth, IRootState, logoutAuth, setUserFieldValue } from '@/store';
+
 import Image from 'next/legacy/image';
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -27,6 +27,8 @@ import {
 import { CHANGE_PHONE_OPTION } from '../../shared/enum';
 import { IRepresent } from '@/interfaces/models/IRepresent';
 import { set } from 'date-fns';
+import { authLogout } from '@/store/modules/test/actions';
+import clsx from 'clsx';
 interface IProps {
   accountInfo: IRepresent;
 }
@@ -40,7 +42,11 @@ enum ToggleForgotFormOption {
 export const AccountInfoForm = ({ accountInfo }: IProps) => {
   const dispatch = useDispatch();
   const [form] = Form.useForm<FORM_DATA_FIELD>();
+  const [Img, setImageUrl] = useState('');
 
+  const logout = () => {
+    dispatch(asyncLogoutAuth());
+  };
   const data = useSelector((state: any) => state.login.data);
   const [currentAccountInfo, setCurrentAccountInfo] = useState<any>({});
   const [showVerify, setShowVerify] = useState(false);
@@ -51,6 +57,8 @@ export const AccountInfoForm = ({ accountInfo }: IProps) => {
   const Enterprise = async (payload: DetailEnterprise) => {
     const user = await accountAPI.getEnterpriseById(payload);
     console.log(user);
+    setImageUrl(user.avatar);
+
     form.setFieldsValue({ ...user });
 
     setCurrentAccountInfo(user);
@@ -64,15 +72,16 @@ export const AccountInfoForm = ({ accountInfo }: IProps) => {
     form.resetFields();
     Enterprise(rqEnterprise);
     console.log(currentAccountInfo);
-  }, [toggleForgotForm]);
+  }, [Img]);
 
   // handle Password change
   const handlePasswordChange = useCallback(() => {
     form.validateFields();
     const formData = form.getFieldsValue();
     const payload: UpdatePasswordPayload = {
-      new_password: formData[FORM_DATA_FIELD.new_password],
-      current_password: formData[FORM_DATA_FIELD.password],
+      userName: data.userName,
+      password: formData[FORM_DATA_FIELD.new_password],
+      oldPass: formData[FORM_DATA_FIELD.password],
       confirmPassword: formData[FORM_DATA_FIELD.confirmPassword],
     };
     if (Object.values(payload).some((value) => !value)) {
@@ -86,15 +95,17 @@ export const AccountInfoForm = ({ accountInfo }: IProps) => {
     try {
       appLibrary.showloading();
       const { code } = await accountAPI.updatePassword(payload);
-      if (code === SV_RES_STATUS_CODE.success) {
-        message.success('Đổi mật khẩu thành công');
-        setToggleForgotForm(ToggleForgotFormOption.none);
-        form.resetFields([
-          FORM_DATA_FIELD.password,
-          FORM_DATA_FIELD.new_password,
-          FORM_DATA_FIELD.confirmPassword,
-        ]);
-      }
+
+      message.success('Đổi mật khẩu thành công');
+      setToggleForgotForm(ToggleForgotFormOption.none);
+      form.resetFields([
+        FORM_DATA_FIELD.password,
+        FORM_DATA_FIELD.new_password,
+        FORM_DATA_FIELD.confirmPassword,
+      ]);
+      localStorage.removeItem('jwtToken');
+      logout();
+
       appLibrary.hideloading();
     } catch (error) {
       appLibrary.hideloading();
@@ -272,6 +283,7 @@ export const AccountInfoForm = ({ accountInfo }: IProps) => {
 
     const formData = form.getFieldsValue();
     const payload: UpdateAccountInfoPayload = {
+      id: currentAccountInfo.id,
       address: formData[FORM_DATA_FIELD.address],
       name: formData[FORM_DATA_FIELD.name],
       gender_id: formData[FORM_DATA_FIELD.gender_id],
@@ -285,10 +297,10 @@ export const AccountInfoForm = ({ accountInfo }: IProps) => {
     if (isMatch(accountInfo, payload) && isMatch(accountInfo.avatar, avatar)) {
       return message.warning('Không có thông tin nào thay đổi');
     }
-    if (!isMatch(accountInfo, payload)) {
+    if (!isMatch(currentAccountInfo, payload)) {
       onAccountInfoChange(payload);
     }
-    if (!isMatch(accountInfo.avatar, avatar)) {
+    if (!isMatch(currentAccountInfo.avatar, avatar)) {
       onUpdateAvatar();
     }
   };
@@ -296,10 +308,10 @@ export const AccountInfoForm = ({ accountInfo }: IProps) => {
     try {
       appLibrary.showloading();
       const { code } = await accountAPI.updateAccountInfo(payload);
-      if (code === SV_RES_STATUS_CODE.success) {
-        message.success('Cập nhật thông tin thành công');
-        // setToggleForgotForm(ToggleForgotFormOption.none);
-      }
+
+      message.success('Cập nhật thông tin thành công');
+      // setToggleForgotForm(ToggleForgotFormOption.none);
+
       appLibrary.hideloading();
     } catch (error) {
       appLibrary.hideloading();
@@ -315,19 +327,22 @@ export const AccountInfoForm = ({ accountInfo }: IProps) => {
   const onUpdateAvatar = async () => {
     const formData = new FormData();
     const { avatar } = form.getFieldsValue([FORM_DATA_FIELD.avatar]);
-    formData.append('avatar', avatar?.file?.originFileObj ?? avatar);
+    formData.append('file', avatar?.file?.originFileObj ?? avatar);
     try {
       appLibrary.showloading();
-      const { code, data } = await accountAPI.updateAvatar(formData);
-      if (code === SV_RES_STATUS_CODE.success) {
-        // update avatar in redux
-        dispatch(
-          setUserFieldValue({
-            avatar: data?.url,
-          })
-        );
-        message.success('Cập nhật ảnh đại diện thành công');
-      }
+      const res = await accountAPI.updateAvatar(formData);
+      const url = await accountAPI.getUrlCDN(res.getInfoUri);
+
+      const urlavatar = res.stringConnect + url.downloadTokens;
+      const payloadUpdate: any = {
+        id: currentAccountInfo.id,
+        avatar: urlavatar,
+      };
+      await accountAPI.updateEnterpriseInfo(payloadUpdate);
+      // const payloadUpdateAvatar :
+      // await accountAPI.updateAccountInfo()
+      message.success('Cập nhật ảnh đại diện thành công');
+
       appLibrary.hideloading();
     } catch (error) {
       appLibrary.hideloading();

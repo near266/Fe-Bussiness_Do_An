@@ -17,7 +17,6 @@ export interface IRecruitment {
   overview: string;
   requirement: string;
   benefit: string;
-  tags: { id: string; label: string }[];
   contact_name: string;
   contact_phone: string;
   contact_email: string;

@@ -24,6 +24,7 @@ export enum RECRUITMENT_DATA_FIELD {
   contact_phone = 'contact_phone',
   contact_email = 'contact_email',
   status_id = 'status_id',
-  caching = 'caching',
+  // caching = 'caching',
   image_url = 'image_url',
+  address = 'address',
 }

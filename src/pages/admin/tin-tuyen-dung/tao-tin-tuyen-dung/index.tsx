@@ -22,7 +22,11 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       },
     };
   } catch (error) {
-    return { notFound: true };
+    return {
+      props: {
+        enterpriseInfo: {},
+      },
+    };
   }
 };
 export default CreateRecruitmentPage;

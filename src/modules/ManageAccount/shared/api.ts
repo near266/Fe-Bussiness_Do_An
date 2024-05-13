@@ -7,8 +7,9 @@ import axios from 'axios';
 import { CHANGE_PHONE_OPTION } from './enum';
 
 export type UpdatePasswordPayload = {
-  current_password: FORM_DATA_FIELD.password;
-  new_password: FORM_DATA_FIELD.new_password;
+  userName: string;
+  oldPass: FORM_DATA_FIELD.password;
+  password: FORM_DATA_FIELD.new_password;
   confirmPassword: FORM_DATA_FIELD.confirmPassword;
 };
 
@@ -24,6 +25,7 @@ export type UpdateEmailPayload = {
 };
 
 export type UpdateAccountInfoPayload = {
+  id: string;
   name: string;
   gender_id: GENDER_CODE;
   address: string;
@@ -39,7 +41,7 @@ export type UpdateEnterpriseInfoPayload = {
   address: string;
   career_field_id: number;
   website_url: string;
-  enterprise_introduce: string;
+  introduce: string;
   phone: string;
 };
 export type DetailEnterprise = {
@@ -81,7 +83,7 @@ class AccountAPI {
   }
   // update Account
   async updatePassword(payload: UpdatePasswordPayload) {
-    const res = await apiEnterprise.put('enterprises/account/password', payload);
+    const res = await apiEnterprise.post('/api/User/reset-password', payload);
     return res.data;
   }
 
@@ -96,7 +98,10 @@ class AccountAPI {
   }
 
   async updateAccountInfo(payload: UpdateAccountInfoPayload) {
-    const res = await apiEnterprise.put('enterprises/account/info', payload);
+    const res = await apiEnterprise.put(
+      '/api/UserInfo/Enterprise/Update-AccountInfo',
+      payload
+    );
     return res.data;
   }
   async getUrlCDN(url) {
