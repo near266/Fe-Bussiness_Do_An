@@ -141,7 +141,7 @@ const ListPost = () => {
             <IconButton
               onClick={() => {
                 router.push(
-                  `/admin/tin-tuyen-dung/danh-sach-dang-tin/chinh-sua/?id=}`,
+                  '/admin/tin-tuyen-dung/danh-sach-dang-tin/chinh-sua/?id=}',
                   undefined,
                   {
                     shallow: true,
