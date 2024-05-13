@@ -179,7 +179,7 @@ class RecruitmentsAPI {
   }
 
   updateRcruitment = async (params: UpdatePost) => {
-    const { data } = await apiEnterprise.put(`/api/Cv/job-post/update`, params);
+    const { data } = await apiEnterprise.put('/api/Cv/job-post/update', params);
     return data;
   };
   deleteRecruitment = async (id: string) => {
